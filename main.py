@@ -1,25 +1,26 @@
-# from typing import Coroutine
 import requests
 from bs4 import BeautifulSoup
 import time
 
+#BTC_URL = 'https://ru.investing.com/crypto/bitcoin/btc-usd'
+#convert = soup.findAll("span", {"class": "arial_26 inlineblock pid-1058142-last"})
+
+#ETH_URL = 'https://ru.investing.com/crypto/ethereum/eth-usd'
+#convert = soup.findAll("span", {"class": "arial_26 inlineblock pid-945629-last"})
 
 class Currency:
-    def __init__(self, URL, current_converted_price, convert, HEADER = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
-    }, difference = 0.00001):
-        self.URL = URL
-        self.header = HEADER
+    def __init__(self):
         self.current_converted_price = float(self.get_currency_price().replace(",", "."))
-        self.difference = difference
-        self.convert = convert
 
     XRP_URL = 'https://ru.investing.com/crypto/xrp/xrp-usd'
-    BTC_URL = 'https://ru.investing.com/crypto/bitcoin/btc-usd'
-    EHT_URL = 'https://ru.investing.com/crypto/ethereum/eth-usd'
+    HEADER = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+    }
+    current_converted_price = 0
+    difference = 0.00001
 
     def get_currency_price(self):
-        full_page = requests.get(self.URL, headers= self.header)
+        full_page = requests.get(self.XRP_URL, headers=self.HEADER)
         soup = BeautifulSoup(full_page.content, 'html.parser')
 
         convert = soup.findAll("span", {"class": "arial_26 inlineblock pid-1118146-last"})
@@ -45,5 +46,4 @@ class Currency:
 
     def get_answer(self):
         return self.total
-
 
